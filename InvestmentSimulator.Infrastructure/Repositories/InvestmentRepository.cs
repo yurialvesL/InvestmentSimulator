@@ -1,32 +1,52 @@
 ﻿using InvestmentSimulator.Domain.Entities;
 using InvestmentSimulator.Domain.Interfaces;
+using InvestmentSimulator.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvestmentSimulator.Infrastructure.Repositories;
 
-public class InvestmentRepository : IInvestmentRepository
+public class InvestmentRepository(ApplicationDbContext dbContext) : IInvestmentRepository
 {
-    public Task<Investment> CreateInvestmentAsync(Investment investment)
+
+    private readonly ApplicationDbContext _dbContext = dbContext;
+
+    public async Task<Investment> CreateInvestmentAsync(Investment investment)
     {
-        throw new NotImplementedException();
+        await _dbContext.Investments.AddAsync(investment);
+        await _dbContext.SaveChangesAsync();
+
+        return investment;
+
     }
 
-    public Task<bool> DeleteInvestmentAsync(Guid investmentId)
+    public async Task<bool> DeleteInvestmentAsync(Guid investmentId)
     {
-        throw new NotImplementedException();
+        var deleted = await _dbContext.Investments
+           .Where(i => i.Id == investmentId)
+           .ExecuteDeleteAsync();
+
+        return deleted > 1;
     }
 
-    public Task<IEnumerable<Investment>> GetAllInvestmentsAsync()
+    public async Task<List<Investment>> GetAllInvestmentsAsync()
     {
-        throw new NotImplementedException();
+        var investments = await _dbContext.Investments.Select(i => i).ToListAsync();
+        return investments;
     }
 
-    public Task<Investment?> GetInvestmentByIdAsync(Guid investmentId)
+    public async Task<Investment?> GetInvestmentByIdAsync(Guid investmentId)
     {
-        throw new NotImplementedException();
+        var investment = await _dbContext.Investments
+            .FirstOrDefaultAsync(i => i.Id == investmentId);
+        return investment;
     }
 
-    public Task<Investment?> UpdateInvestmentAsync(Investment investment)
+    public async Task<Investment?> UpdateInvestmentAsync(Investment investment)
     {
-        throw new NotImplementedException();
+       _dbContext.Investments.Update(investment);
+       await _dbContext.SaveChangesAsync();
+
+        return await _dbContext.Investments
+            .FirstOrDefaultAsync(i => i.Id == investment.Id);
     }
 }

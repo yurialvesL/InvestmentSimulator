@@ -1,40 +1,50 @@
 ﻿using InvestmentSimulator.Domain.Entities;
 using InvestmentSimulator.Domain.Interfaces;
+using InvestmentSimulator.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvestmentSimulator.Infrastructure.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(ApplicationDbContext context) : IUserRepository
 {
+    private readonly ApplicationDbContext _context = context;
 
-
-
-    public Task<User> CreateUserAsync(User user)
+    public async Task<User> CreateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        await _context.Users.AddAsync(user);    
+        await _context.SaveChangesAsync();
+        return user;
     }
 
     public Task<bool> DeleteUserAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        _context.Users.Remove(new User { Id = userId });
+        return _context.SaveChangesAsync().ContinueWith(t => t.Result > 0);
     }
 
-    public Task<IEnumerable<User>> GetAllUsersAsync()
+    public Task<List<User>> GetAllUsersAsync()
     {
-        throw new NotImplementedException();
+       var users = _context.Users.Select(u => u).ToListAsync();
+        return users;
     }
 
     public Task<User?> GetUserByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        var user = _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        return user;
     }
 
     public Task<User?> GetUserByIdAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        var user = _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        return user;
     }
 
     public Task<User?> UpdateUserAsync(User user)
     {
-        throw new NotImplementedException();
+        _context.Users.Update(user);
+        _context.SaveChangesAsync();
+
+        return _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
     }
 }

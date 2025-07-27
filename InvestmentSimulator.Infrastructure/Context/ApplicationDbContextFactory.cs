@@ -11,7 +11,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "InvestmentSimulator")) // corrigido
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "InvestmentSimulator"))
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
 

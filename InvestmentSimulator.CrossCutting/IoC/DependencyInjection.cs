@@ -1,4 +1,6 @@
-﻿using InvestmentSimulator.Domain.Interfaces;
+﻿using InvestmentSimulator.CrossCutting.Common.Interfaces;
+using InvestmentSimulator.CrossCutting.Common.Security;
+using InvestmentSimulator.Domain.Interfaces;
 using InvestmentSimulator.Infrastructure.Context;
 using InvestmentSimulator.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,9 @@ public static class DependencyInjection
         //Repositories
         services.AddScoped<IInvestmentRepository, InvestmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+
+
+        services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 
 
         // Register your DbContext, Repositories, and other services here

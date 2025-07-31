@@ -6,4 +6,23 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\Investment\CreateInvestment\" />
+    <Folder Include="Commands\Investment\InvestmentSimulate\" />
+    <Folder Include="Commands\Investment\NovaPasta\" />
+    <Folder Include="Commands\Investment\UpdateInvestment\" />
+    <Folder Include="Commands\Users\DeleteUser\" />
+    <Folder Include="Commands\Users\GetUser\" />
+    <Folder Include="Commands\Users\GetAllUsers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InvestmentSimulator.CrossCutting\InvestmentSimulator.CrossCutting.csproj" />
+    <ProjectReference Include="..\InvestmentSimulator.Infrastructure\InvestmentSimulator.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

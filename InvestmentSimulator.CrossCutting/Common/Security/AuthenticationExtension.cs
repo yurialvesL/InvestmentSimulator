@@ -21,7 +21,7 @@ public static class AuthenticationExtension
                         ValidIssuer = configuration["Jwt:Issuer"],
                         ValidAudience = configuration["Jwt:Audience"],
                         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
-                            System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                            System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]))
                     };
                 });
 

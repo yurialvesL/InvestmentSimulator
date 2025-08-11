@@ -28,8 +28,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Controllers\Features\Investment\" />
-	  <Folder Include="Controllers\Features\User\DTOs\" />
+	  <Folder Include="Controllers\Features\Investment\DTOs\" />
+	  <Folder Include="Controllers\Features\Investment\Mapping\" />
+	  <Folder Include="Controllers\Features\Investment\Validator\" />
+	  <Folder Include="Controllers\Features\User\DTOs\DeleteUser\" />
+	  <Folder Include="Controllers\Features\User\DTOs\GetAllUsers\" />
+	  <Folder Include="Controllers\Features\User\DTOs\GetUser\" />
 	</ItemGroup>
 
 </Project>

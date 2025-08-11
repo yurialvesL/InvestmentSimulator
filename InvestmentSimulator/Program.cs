@@ -1,6 +1,8 @@
+using InvestmentSimulator.Application;
 using InvestmentSimulator.CrossCutting.Common.Security;
 using InvestmentSimulator.CrossCutting.IoC;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,19 @@ builder.Configuration
 
 builder.Services.AddControllers();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddMaps(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+});
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(
+        typeof(ApplicationLayer).Assembly,
+        typeof(Program).Assembly
+    );
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddSwaggerGen(c =>
@@ -73,10 +88,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
+app.UseRouting();
 app.MapControllers();
-
+app.UseAuthorization();
 app.Run();
 
 public partial class Program { }

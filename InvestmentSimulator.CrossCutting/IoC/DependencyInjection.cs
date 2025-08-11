@@ -21,13 +21,14 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(connectionString));
 
+
+        services.AddRateLimitingPolicies(configuration);
+
         //Repositories
         services.AddScoped<IInvestmentRepository, InvestmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 
-
         services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
-
 
         // Register your DbContext, Repositories, and other services here
         // Example:

@@ -2,6 +2,7 @@
 using InvestmentSimulator.Domain.Entities;
 using InvestmentSimulator.Domain.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace InvestmentSimulator.Application.Commands.Users.CreateUser;
 
@@ -9,29 +10,41 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
-    public CreateUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+    private readonly ILogger<CreateUserHandler> _logger;
+    public CreateUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, ILogger<CreateUserHandler> logger)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _logger = logger;
     }
-    public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<CreateUserResult?> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new User
+        try
         {
-            Name = request.Name,
-            Email = request.Email,
-            PasswordHash = _passwordHasher.HashPassword(request.Password),
-            DateOfBirth = request.DateOfBirth
-        };
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                PasswordHash = _passwordHasher.HashPassword(request.Password),
+                DateOfBirth = request.DateOfBirth
+            };
 
-        await _userRepository.CreateUserAsync(user);
+            await _userRepository.CreateUserAsync(user, cancellationToken);
 
-        return new CreateUserResult
+            return new CreateUserResult
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth
+            };
+        }
+        catch (Exception ex)
         {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email,
-            DateOfBirth = user.DateOfBirth
-        };
+
+            _logger.LogError($"An error occured in  CreateUserHandler, Exception: {ex.Message}");
+        }
+
+        return null;
     }
 }

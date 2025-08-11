@@ -4,10 +4,11 @@ using InvestmentSimulator.Controllers.Features.Auth.Validator;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace InvestmentSimulator.Controllers.Features.Auth;
 
-
+[EnableRateLimiting("fixed-1m")]
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]

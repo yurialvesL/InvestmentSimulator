@@ -11,9 +11,6 @@
     <Folder Include="Commands\Investment\InvestmentSimulate\" />
     <Folder Include="Commands\Investment\NovaPasta\" />
     <Folder Include="Commands\Investment\UpdateInvestment\" />
-    <Folder Include="Commands\Users\DeleteUser\" />
-    <Folder Include="Commands\Users\GetUser\" />
-    <Folder Include="Commands\Users\GetAllUsers\" />
   </ItemGroup>
 
   <ItemGroup>

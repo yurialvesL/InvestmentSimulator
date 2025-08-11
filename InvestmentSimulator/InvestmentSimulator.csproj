@@ -19,6 +19,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="9.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,7 +29,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Controllers\Features\Investment\" />
-	  <Folder Include="Controllers\Features\User\" />
+	  <Folder Include="Controllers\Features\User\DTOs\" />
 	</ItemGroup>
 
 </Project>

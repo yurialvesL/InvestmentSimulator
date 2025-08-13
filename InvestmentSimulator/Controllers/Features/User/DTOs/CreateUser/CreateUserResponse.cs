@@ -1,6 +1,6 @@
 ﻿namespace InvestmentSimulator.Controllers.Features.User.DTOs.CreateUser;
 
-public class CreateUserResponse
+public record CreateUserResponse
 {
     public Guid UserId { get; set; }
     public string Name { get; set; } = string.Empty;

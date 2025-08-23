@@ -16,35 +16,36 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         return user;
     }
 
-    public Task<bool> DeleteUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         _context.Users.Remove(new User { Id = userId });
-        return _context.SaveChangesAsync().ContinueWith(t => t.Result > 0);
+        return await _context.SaveChangesAsync(cancellationToken).ContinueWith(t => t.Result > 0);
     }
 
-    public Task<List<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+    public async Task<List<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
     {
-       var users = _context.Users.Select(u => u).ToListAsync();
+       var users = await _context.Users.AsNoTracking().Select(u => u).ToListAsync(cancellationToken: cancellationToken);
         return users;
     }
 
-    public Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        var user = _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user =  await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, cancellationToken: cancellationToken);
         return user;
     }
 
-    public Task<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var user = _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId, cancellationToken: cancellationToken);
         return user;
     }
 
-    public Task<User?> UpdateUserAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<User?> UpdateUserAsync(User user, CancellationToken cancellationToken = default)
     {
         _context.Users.Update(user);
-        _context.SaveChangesAsync();
 
-        return _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id, cancellationToken: cancellationToken);
     }
 }

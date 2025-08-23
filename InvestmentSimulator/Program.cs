@@ -1,9 +1,9 @@
 using InvestmentSimulator.Application;
+using InvestmentSimulator.Controllers.Configuration.Swagger;
 using InvestmentSimulator.CrossCutting.Common.Security;
 using InvestmentSimulator.CrossCutting.IoC;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Extensions.DependencyInjection;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +45,20 @@ builder.Services.AddSwaggerGen(c =>
             Email = "yurisoad2015@gmail.com"
         }
     });
+
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12sdasdsa3"
+    });
+
+    c.OperationFilter<AuthorizeCheckOperationFilter>();
+
+    c.EnableAnnotations();
 });
 
 
@@ -91,6 +105,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 app.MapControllers();
+app.UseAuthentication();
 app.UseAuthorization();
 app.Run();
 

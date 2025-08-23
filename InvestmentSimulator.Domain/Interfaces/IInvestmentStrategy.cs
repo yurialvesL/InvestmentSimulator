@@ -9,6 +9,6 @@ namespace InvestmentSimulator.Domain.Interfaces;
 
 public interface IInvestmentStrategy
 {
-    Task<decimal> SimualateInvestment(decimal initialAmount, decimal monthlyAmount, int months);
+    Task<decimal> SimulateInvestment(decimal initialAmount, decimal monthlyAmount, int months);
     InvestmentType Type {get;}
 }

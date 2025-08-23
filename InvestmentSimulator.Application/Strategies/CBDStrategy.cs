@@ -9,7 +9,7 @@ public class CBDStrategy : IInvestmentStrategy
 
     InvestmentType IInvestmentStrategy.Type { get => Type; }
 
-    public async Task<decimal> SimualateInvestment(decimal initialAmount, decimal monthlyAmount, int months)
+    public async Task<decimal> SimulateInvestment(decimal initialAmount, decimal monthlyAmount, int months)
     {
         throw new NotImplementedException();
     }

@@ -1,5 +1,8 @@
-﻿namespace InvestmentSimulator.Controllers.Features.User.DTOs.GetAllUsers;
+﻿using InvestmentSimulator.Controllers.Features.User.DTOs.GetUser;
 
-public class GetAllUsersResponse
+namespace InvestmentSimulator.Controllers.Features.User.DTOs.GetAllUsers;
+
+public record GetAllUsersResponse
 {
+    public List<GetUserResponse>? Users { get; init; }
 }

@@ -9,7 +9,7 @@ public class TesouroDiretoStrategy : IInvestmentStrategy
 
     InvestmentType IInvestmentStrategy.Type { get => Type; }
 
-    public Task<decimal> SimualateInvestment(decimal initialAmount, decimal monthlyAmount, int months)
+    public Task<decimal> SimulateInvestment(decimal initialAmount, decimal monthlyAmount, int months)
     {
         throw new NotImplementedException();
     }
